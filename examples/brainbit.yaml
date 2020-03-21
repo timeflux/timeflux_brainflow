@@ -1,0 +1,61 @@
+graphs:
+
+  - id: Broker
+    nodes:
+    - id: proxy
+      module: timeflux.nodes.zmq
+      class: Broker
+
+  - id: BrainBit
+    nodes:
+    - id: acquire
+      module: timeflux_brainflow.nodes.driver
+      class: BrainFlow
+      params:
+        board: brainbit
+        channels: [ T3, T4, O1, O2 ]
+        other_info: 130073
+        debug: true
+    - id: display
+      module: timeflux.nodes.debug
+      class: Display
+    - id: pub
+      module: timeflux.nodes.zmq
+      class: Pub
+      params:
+        topic: brainbit
+    edges:
+    - source: acquire
+      target: pub
+    rate: 10
+
+  - id: Monitor
+    nodes:
+    - id: sub
+      module: timeflux.nodes.zmq
+      class: Sub
+      params:
+        topics: [ brainbit ]
+    - id: select
+      module: timeflux.nodes.query
+      class: LocQuery
+      params:
+        key: [ T3, T4, O1, O2 ]
+    - id: bandpass
+      module: timeflux_dsp.nodes.filters
+      class: IIRFilter
+      params:
+        rate: 250
+        order: 3
+        frequencies: [1, 40]
+    - id: ui
+      module: timeflux_ui.nodes.ui
+      class: UI
+    edges:
+      - source: sub:brainbit
+        target: select
+      - source: select
+        target: bandpass
+      - source: bandpass
+        target: ui:brainbit
+    rate: 10

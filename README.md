@@ -1,7 +1,6 @@
-# An example Timeflux plugin
+# BrainFlow plugin
 
-This is an example plugin that provides a simple arithmetic node. Use it as a template
-to develop your own plugins.
+This plugin provides a unified interface for all [BrainFlow](https://brainflow.readthedocs.io/en/stable/)-supported boards.
 
 ## Installation
 
@@ -11,5 +10,5 @@ You can then install this plugin in the ``timeflux`` environment:
 
 ```
 $ conda activate timeflux
-$ pip install git+https://github.com/timeflux/timeflux_example
+$ pip install git+https://github.com/timeflux/timeflux_brainflow
 ```

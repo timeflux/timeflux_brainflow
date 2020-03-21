@@ -1,0 +1,53 @@
+graphs:
+
+  - id: Broker
+    nodes:
+    - id: proxy
+      module: timeflux.nodes.zmq
+      class: Broker
+
+  - id: OpenBCI
+    nodes:
+    - id: acquire
+      module: timeflux_brainflow.nodes.driver
+      class: BrainFlow
+      params:
+        board: ganglion
+        serial_port: /dev/cu.usbmodem11
+        debug: false
+    - id: display
+      module: timeflux.nodes.debug
+      class: Display
+    - id: pub
+      module: timeflux.nodes.zmq
+      class: Pub
+      params:
+        topic: openbci
+    edges:
+    - source: acquire
+      target: pub
+    rate: 10
+
+  - id: Monitor
+    nodes:
+    - id: sub
+      module: timeflux.nodes.zmq
+      class: Sub
+      params:
+        topics: [ openbci ]
+    - id: bandpass
+      module: timeflux_dsp.nodes.filters
+      class: IIRFilter
+      params:
+        rate: 250
+        order: 3
+        frequencies: [1, 40]
+    - id: ui
+      module: timeflux_ui.nodes.ui
+      class: UI
+    edges:
+      - source: sub:openbci
+        target: bandpass
+      - source: bandpass
+        target: ui:openbci
+    rate: 10

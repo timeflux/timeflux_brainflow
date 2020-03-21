@@ -1,0 +1,15 @@
+graphs:
+  - id: Synthetic
+    nodes:
+    - id: acquire
+      module: timeflux_brainflow.nodes.driver
+      class: BrainFlow
+      params:
+        board: synthetic
+    - id: display
+      module: timeflux.nodes.debug
+      class: Display
+    edges:
+    - source: acquire
+      target: display
+    rate: 10
