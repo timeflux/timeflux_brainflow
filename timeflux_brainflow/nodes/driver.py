@@ -4,7 +4,7 @@ from timeflux.core.node import Node
 
 class BrainFlow(Node):
 
-    """Driver for BrainFlow-supported boards.
+    """Driver for BrainFlow.
 
     This plugin provides a unified interface for all boards supported by BrainFlow.
 
@@ -13,9 +13,8 @@ class BrainFlow(Node):
 
     Args:
         board (string|int): The board ID.
-            Either a numeric ID or a name (e.g. ``synthetic``, ``cyton_wifi``,
-            ``brainbit``) are accepted.
-            See:
+            Allowed values: numeric ID or name (e.g. ``synthetic``, ``cyton_wifi``,
+            ``brainbit``).
         channels (list): The EEG channel labels.
             If not set, incrementing numbers will be used.
         debug (boolean): Print debug messages.
@@ -24,7 +23,7 @@ class BrainFlow(Node):
             ``ip_port``, ``ip_protocol``, ``other_info``.
 
     .. seealso::
-        `Supported boads: <https://brainflow.readthedocs.io/en/stable/SupportedBoards.html>`_
+        List of `supported boads <https://brainflow.readthedocs.io/en/stable/SupportedBoards.html>`_.
 
     Example:
         .. literalinclude:: /../../timeflux_brainflow/examples/synthetic.yaml
