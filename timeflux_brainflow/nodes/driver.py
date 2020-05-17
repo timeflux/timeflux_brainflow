@@ -32,7 +32,7 @@ class BrainFlow(Node):
         List of `supported boads <https://brainflow.readthedocs.io/en/stable/SupportedBoards.html>`_.
 
     Example:
-        .. literalinclude:: /../../timeflux_brainflow/examples/synthetic.yaml
+        .. literalinclude:: /../examples/synthetic.yaml
            :language: yaml
     """
 
