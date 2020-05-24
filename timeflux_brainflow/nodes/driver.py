@@ -1,3 +1,4 @@
+import time
 import pandas as pd
 from brainflow.board_shim import (
     BoardIds,
@@ -26,7 +27,7 @@ class BrainFlow(Node):
         debug (boolean): Print debug messages.
         **kwargs: The parameters specific for each board.
             Allowed arguments: ``serial_port``, ``mac_address``, ``ip_address``,
-            ``ip_port``, ``ip_protocol``, ``other_info``.
+            ``ip_port``, ``ip_protocol``, ``serial_number``, ``other_info``.
 
     .. seealso::
         List of `supported boads <https://brainflow.readthedocs.io/en/stable/SupportedBoards.html>`_.

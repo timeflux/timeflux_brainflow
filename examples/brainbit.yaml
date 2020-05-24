@@ -14,7 +14,7 @@ graphs:
       params:
         board: brainbit
         channels: [ T3, T4, O1, O2 ]
-        other_info: 130073
+        serial_number: 130073
         debug: true
     - id: display
       module: timeflux.nodes.debug
