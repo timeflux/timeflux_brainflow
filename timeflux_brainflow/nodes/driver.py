@@ -21,9 +21,11 @@ class BrainFlow(Node):
     Args:
         board (string|int): The board ID.
             Allowed values: numeric ID or name (e.g. ``synthetic``, ``cyton_wifi``,
-            ``brainbit``).
+            ``brainbit``, etc.).
         channels (list): The EEG channel labels.
             If not set, incrementing numbers will be used.
+        command (string): Send a command to the board.
+            Use it carefully and only if you understand what you are doing.
         debug (boolean): Print debug messages.
         **kwargs: The parameters specific for each board.
             Allowed arguments: ``serial_port``, ``mac_address``, ``ip_address``,
@@ -37,7 +39,7 @@ class BrainFlow(Node):
            :language: yaml
     """
 
-    def __init__(self, board, channels=None, debug=False, **kwargs):
+    def __init__(self, board, channels=None, command=None, debug=False, **kwargs):
 
         # Get board id
         if isinstance(board, str):
@@ -92,6 +94,8 @@ class BrainFlow(Node):
         # Initialize board and start streaming
         self._board = BoardShim(self._board_id, params)
         self._board.prepare_session()
+        if command:
+            self._board.config_board(command)
         self._board.start_stream()
 
     def update(self):

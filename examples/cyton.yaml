@@ -15,7 +15,8 @@ graphs:
         board: cyton
         serial_port: /dev/cu.usbserial-DQ0084BO
         channels: [ Fpz, AF7, AF8, Oz, O1, O2, P7, P8 ]
-        debug: false
+        command: x1030110X # Set gain of first channel to 6
+        debug: true
     - id: display
       module: timeflux.nodes.debug
       class: Display
