@@ -1,0 +1,56 @@
+graphs:
+
+  - id: Broker
+    nodes:
+    - id: proxy
+      module: timeflux.nodes.zmq
+      class: Broker
+
+  - id: FreeEEG32
+    nodes:
+    - id: acquire
+      module: timeflux_brainflow.nodes.driver
+      class: BrainFlow
+      params:
+        board: freeeeg32
+        #serial_port: /dev/cu.usbmodem3067384E33301 # USB
+        serial_port: /dev/cu.SLAB_USBtoUART # Optical
+        debug: true
+    - id: display
+      module: timeflux.nodes.debug
+      class: Display
+    - id: pub
+      module: timeflux.nodes.zmq
+      class: Pub
+      params:
+        topic: eeg
+    edges:
+    - source: acquire
+      target: pub
+    - source: acquire
+      target: display
+    rate: 10
+
+  - id: Monitor
+    nodes:
+    - id: sub
+      module: timeflux.nodes.zmq
+      class: Sub
+      params:
+        topics: [ eeg ]
+    - id: bandpass
+      module: timeflux_dsp.nodes.filters
+      class: IIRFilter
+      params:
+        rate: 250
+        order: 3
+        frequencies: [1, 40]
+    - id: ui
+      module: timeflux_ui.nodes.ui
+      class: UI
+    edges:
+      - source: sub:eeg
+        target: bandpass
+      - source: bandpass
+        target: ui:eeg
+    rate: 10
