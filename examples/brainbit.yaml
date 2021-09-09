@@ -12,9 +12,11 @@ graphs:
       module: timeflux_brainflow.nodes.driver
       class: BrainFlow
       params:
-        board: brainbit
+        #board: brainbit
+        #serial_number: 130073
+        board: brainbit_bled
+        serial_port: /dev/cu.usbmodem11
         channels: [ T3, T4, O1, O2 ]
-        serial_number: 130073
         debug: true
     - id: display
       module: timeflux.nodes.debug
